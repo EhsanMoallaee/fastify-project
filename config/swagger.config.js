@@ -8,8 +8,9 @@ export const fastifySwaggerConfig = {
         tags: [
             { name: 'Products', description: 'Product routes' }
         ],
-        host: 'http://localhost:5000',
+        host: '127.0.0.1:5000',
         schemes: ['http'],
+        consumes: ['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'],
         securityDefinitions: {
             apiKey: {
                 type: 'apiKey',

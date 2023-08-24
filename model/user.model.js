@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../config/sequelize.config";
+import { sequelize } from "../config/sequelize.config.js";
 
 export class User extends Model {}
 
@@ -16,6 +16,6 @@ User.init({
     name: 'users'
 })
 
-User.sync({ force: true }).then(result => {
-    console.log('User Table : ', result);
-})
+// User.sync({ alter: true }).then(result => {
+//     console.log('User Table : ', result);
+// })
