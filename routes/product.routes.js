@@ -11,6 +11,7 @@ const productSchema = {
 const getOneProductSchema = {
     schema: {
         tags: ['Products'],
+        summary: 'Get one product by id',
         params: {
             id: { type: "integer", description: 'Product id' },
         },
@@ -24,6 +25,7 @@ const getOneProductSchema = {
 const getProductsSchema = {
     schema: {
         tags: ['Products'],
+        summary: 'Get all products',
         response: {
             200: {
                 type: 'array',
