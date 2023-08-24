@@ -10,6 +10,10 @@ const productSchema = {
 
 const getOneProductSchema = {
     schema: {
+        tags: ['Products'],
+        params: {
+            id: { type: "integer", description: 'Product id' },
+        },
         response: {
             200: productSchema
         }
@@ -19,6 +23,7 @@ const getOneProductSchema = {
 
 const getProductsSchema = {
     schema: {
+        tags: ['Products'],
         response: {
             200: {
                 type: 'array',
