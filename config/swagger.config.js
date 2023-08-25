@@ -6,8 +6,10 @@ export const fastifySwaggerConfig = {
             version: '0.1.0'
         },
         tags: [
-            { name: 'Products', description: 'Product routes' },
+            { name: 'Authentication', description: 'Authentication routes' },
+            { name: 'Categories', description: 'Category routes' },
             { name: 'Users', description: 'User routes' },
+            { name: 'Products', description: 'Product routes' },
         ],
         host: '127.0.0.1:5000',
         schemes: ['http'],

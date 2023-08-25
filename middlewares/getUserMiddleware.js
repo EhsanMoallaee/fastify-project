@@ -29,7 +29,10 @@ export const getUserMiddleware = async(req, reply) => {
             });
         }
         req.user = user.dataValues;
-        // next();
+        // next(); 
+        //-> The done callback is not available when using async/await or returning a Promise.
+        //  If you do invoke a done callback in this situation unexpected behavior may occur,
+        //  e.g. duplicate invocation of handlers.
         return req
     } else {
         return reply.code(401).send({

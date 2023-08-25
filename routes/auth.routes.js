@@ -1,6 +1,6 @@
 import { userLoginHandler, userRegisterHandler } from "../handlers/auth.handler.js";
 
-const userRegister = {
+const userRegisterSchema = {
     schema: {
         tags: ['Authentication'],
         summary: 'Register user',
@@ -24,7 +24,7 @@ const userRegister = {
     },
     handler: userRegisterHandler
 }
-const userLogin = {
+const userLoginSchema = {
     schema: {
         tags: ['Authentication'],
         summary: 'Login user',
@@ -48,7 +48,7 @@ const userLogin = {
 }
 
 export default function authRoutes(fastify, options, done) {
-    fastify.post('/register', userRegister);
-    fastify.post('/login', userLogin);
+    fastify.post('/register', userRegisterSchema);
+    fastify.post('/login', userLoginSchema);
     done();
 }

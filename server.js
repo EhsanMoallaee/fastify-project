@@ -16,6 +16,7 @@ import authRoutes from './routes/auth.routes.js';
 import indexRoutes from './routes/index.routes.js';
 import productRoutes from './routes/product.routes.js';
 import userRoutes from './routes/user.routes.js';
+import categoryRoutes from './routes/category.routes.js';
 
 export const fastify = Fastify({logger: false});
 const PORT = process.env.PORT || 5000;
@@ -36,6 +37,7 @@ const main = async() => {
     fastify.use('/', serveStatic(path.join(__dirname, 'public')));
     fastify.register(indexRoutes);
     fastify.register(authRoutes, { prefix: 'auth' });
+    fastify.register(categoryRoutes, { prefix: 'category' });
     fastify.register(userRoutes, { prefix: 'user' });
     fastify.register(productRoutes, { prefix: 'products' });
     // fastify.use((err, req, res, next) => {
