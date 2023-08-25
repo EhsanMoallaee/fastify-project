@@ -20,23 +20,23 @@ export const fastify = Fastify({logger: true});
 const PORT = process.env.PORT || 5000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-fastify.register(fastifyBcrypt, {
-    saltWorkFactor: 12,
-})
-fastify.register(fastifyJwt, {
-    secret: process.env.JWT_SECRET
-})
-fastify.register(fastifySwagger, fastifySwaggerConfig);
-fastify.register(fastifySwaggerUi, fastifySwaggerUIConfig);
-
-fastify.register(indexRoutes);
-fastify.register(authRoutes, { prefix: 'auth' });
-fastify.register(productRoutes, { prefix: 'products' });
-
 const main = async() => {
-    await fastify.register(cors, {});
     await fastify.register(fastifyMiddie);
+    fastify.register(fastifyBcrypt, {
+        saltWorkFactor: 12,
+    })
+    fastify.register(fastifyJwt, {
+        secret: process.env.JWT_SECRET
+    })
+    fastify.register(fastifySwagger, fastifySwaggerConfig);
+    fastify.register(fastifySwaggerUi, fastifySwaggerUIConfig);
+    await fastify.register(cors, {});
+
     fastify.use('/', serveStatic(path.join(__dirname, 'public')));
+    fastify.register(indexRoutes);
+    fastify.register(authRoutes, { prefix: 'auth' });
+    fastify.register(productRoutes, { prefix: 'products' });
+
     fastify.listen({port: PORT}, err => {
         if(err) console.log(err);
         console.log(`Server is running on : ${PORT}`);
