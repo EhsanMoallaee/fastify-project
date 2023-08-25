@@ -1,5 +1,6 @@
 import Fastify from'fastify';
-import cors from '@fastify/cors'
+import cors from '@fastify/cors';
+import fastifyBcrypt from 'fastify-bcrypt';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { fastifySwaggerConfig, fastifySwaggerUIConfig } from './config/swagger.config.js';
@@ -9,10 +10,12 @@ import productRoutes from './routes/product.routes.js';
 import './config/fastifyenv.config.js';
 import './config/sequelize.config.js';
 
-const fastify = Fastify({logger: true});
+export const fastify = Fastify({logger: true});
 const PORT = process.env.PORT || 5000;
 
-
+fastify.register(fastifyBcrypt, {
+    saltWorkFactor: 12,
+})
 fastify.register(fastifySwagger, fastifySwaggerConfig);
 fastify.register(fastifySwaggerUi, fastifySwaggerUIConfig);
 
