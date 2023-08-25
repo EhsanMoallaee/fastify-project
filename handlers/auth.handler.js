@@ -21,7 +21,7 @@ export const userLoginHandler = async(req, reply) => {
     if(!user) return reply.code(404).send({message: 'Username or password is wrong'});
     const compareResult = await fastify.bcrypt.compare(password, user.password);
     if(compareResult) {
-        const accessToken = fastify.jwt.sign({username}, {expiresIn: '1m' });
+        const accessToken = fastify.jwt.sign({username}, {expiresIn: '24h' });
         user.accessToken = accessToken;
         await user.save();
         return reply

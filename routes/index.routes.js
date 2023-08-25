@@ -1,3 +1,9 @@
+
+const myMiddleware = (req, reply, next) => {
+    console.log('This comes from firstMiddleware');
+    next();
+}
+
 const homePageSchema = {
     schema: {
         tags: ['Home-Page'],
@@ -7,26 +13,15 @@ const homePageSchema = {
             }
         }
     },
+    preHandler: [myMiddleware],
     handler: async (req, reply) => {
         reply.send({
             message: 'FASTIFY Home Page'
         })
     }
 }
-const firstMiddleware = (req, reply, next) => {
-    console.log('This comes from firstMiddleware');
-    next();
-}
-const secondMiddleware = (req, reply, next) => {
-    console.log('This comes from secondMiddleware');
-    next();
-}
+
 export default function indexRoutes(fastify, options, done) {
-    fastify.get('/', {preHandler: [firstMiddleware, secondMiddleware]}, async (req, reply) => {
-        reply.send({
-            message: "Middlewares Used",
-        })
-    })
-    fastify.get('/homePage', homePageSchema);
+    fastify.get('/', homePageSchema);
     done();
 }

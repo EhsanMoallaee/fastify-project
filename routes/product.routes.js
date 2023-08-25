@@ -1,4 +1,5 @@
 import { getOneProduct, getProducts } from "../handlers/product.handler.js"
+import {getUserMiddleware} from "../middlewares/getUserMiddleware.js"
 
 const productSchema = {
     type: 'object',
@@ -22,6 +23,7 @@ const getOneProductSchema = {
             200: productSchema
         }
     },
+    preHandler: [getUserMiddleware],
     handler: getOneProduct
 }
 
@@ -34,16 +36,30 @@ const getProductsSchema = {
         }],
         response: {
             200: {
-                type: 'array',
-                items: productSchema
+                type: 'object',
+                properties: {
+                    products: {
+                        type: 'array',
+                        items: productSchema
+                    },
+                    user: {
+                        type: 'object',
+                        properties: {
+                            id: { type: "number" },
+                            username: { type: "string" },
+                            first_name: { type: "string" },
+                            last_name: { type: "string" },
+                        }
+                    }
+                }
             }
         }
     },
+    preHandler: [getUserMiddleware],
     handler: getProducts
 }
 
 export default function productRoutes(fastify, options, done) {
-    fastify.addHook('onRequest', (request) => request.jwtVerify())
     fastify.get('/', getProductsSchema);
     fastify.get('/:id', getOneProductSchema);
     done()
