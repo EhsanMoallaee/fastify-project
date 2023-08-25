@@ -12,6 +12,9 @@ const getOneProductSchema = {
     schema: {
         tags: ['Products'],
         summary: 'Get one product by id',
+        security: [{
+            apiKey: []
+        }],
         params: {
             id: { type: "integer", description: 'Product id' },
         },
@@ -26,6 +29,9 @@ const getProductsSchema = {
     schema: {
         tags: ['Products'],
         summary: 'Get all products',
+        security: [{
+            apiKey: []
+        }],
         response: {
             200: {
                 type: 'array',
@@ -37,6 +43,7 @@ const getProductsSchema = {
 }
 
 export default function productRoutes(fastify, options, done) {
+    fastify.addHook('onRequest', (request) => request.jwtVerify())
     fastify.get('/', getProductsSchema);
     fastify.get('/:id', getOneProductSchema);
     done()

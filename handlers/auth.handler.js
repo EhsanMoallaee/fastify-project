@@ -10,7 +10,7 @@ export const userRegisterHandler = async(req, reply) => {
         password: await fastify.bcrypt.hash(password),
     });
     await newUser.save();
-    reply.status(200).send(newUser);
+    reply.code(200).send(newUser);
 }
 
 export const userLoginHandler = async(req, reply) => {
@@ -18,14 +18,22 @@ export const userLoginHandler = async(req, reply) => {
     const user = await User.findOne({
         where: { username },
     });
-    if(!user) return reply.status(404).send({message: 'Username or password is wrong'});
+    if(!user) return reply.code(404).send({message: 'Username or password is wrong'});
     const compareResult = await fastify.bcrypt.compare(password, user.password);
     if(compareResult) {
-        return reply.status(200).send({
-            message: 'Login successfully'
-        })
+        const accessToken = fastify.jwt.sign({username}, {expiresIn: '1m' });
+        user.accessToken = accessToken;
+        await user.save();
+        return reply
+            .code(200)
+            .headers({
+                'authorization': accessToken
+            })
+            .send({
+                message: 'Login successfully'
+            })
     }
-    reply.status(401).send({
+    reply.code(401).send({
         message: 'Username or password is wrong'
     })
 }

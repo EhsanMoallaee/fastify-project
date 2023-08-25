@@ -1,7 +1,6 @@
 const homePageSchema = {
     schema: {
         tags: ['Home-Page'],
-        security: [{apiKey: []}],
         response: {
             200: { message: { type: 'string'}}
         }

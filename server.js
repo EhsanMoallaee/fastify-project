@@ -2,6 +2,7 @@ import Fastify from'fastify';
 import cors from '@fastify/cors';
 import fastifyBcrypt from 'fastify-bcrypt';
 import fastifySwagger from '@fastify/swagger';
+import fastifyJwt from '@fastify/jwt';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { fastifySwaggerConfig, fastifySwaggerUIConfig } from './config/swagger.config.js';
 import authRoutes from './routes/auth.routes.js';
@@ -15,6 +16,9 @@ const PORT = process.env.PORT || 5000;
 
 fastify.register(fastifyBcrypt, {
     saltWorkFactor: 12,
+})
+fastify.register(fastifyJwt, {
+    secret: process.env.JWT_SECRET
 })
 fastify.register(fastifySwagger, fastifySwaggerConfig);
 fastify.register(fastifySwaggerUi, fastifySwaggerUIConfig);

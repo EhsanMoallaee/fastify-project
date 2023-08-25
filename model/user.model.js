@@ -11,6 +11,7 @@ User.init({
     password: { type: DataTypes.STRING, allowNull: false },
     active: { type: DataTypes.BOOLEAN, defaultValue: false },
     birthday: { type: DataTypes.DATE },
+    accessToken: { type: DataTypes.STRING, default: '' },
 }, {
     sequelize,
     name: 'users'
