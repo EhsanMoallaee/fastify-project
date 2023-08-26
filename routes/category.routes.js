@@ -26,7 +26,8 @@ const addCategorySchema = {
             type: 'object',
             required: ['title'],
             properties: {
-                title: {type: 'string'}
+                title: {type: 'string'},
+                ParentId: {type: 'integer'}
             },
         },
         response: {

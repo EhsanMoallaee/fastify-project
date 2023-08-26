@@ -1,4 +1,6 @@
 node_modules
 public
 .env
+.log
+yarn-error.log
 text.txt

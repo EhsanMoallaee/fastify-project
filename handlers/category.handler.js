@@ -2,7 +2,7 @@ import { findOneCategory } from "../functions/findOneCategory.js";
 import { Category } from "../model/category.model.js";
 
 export const createCategoryHandler = async(req, reply) => {
-    const { title } = req.body;
+    const { title, ParentId } = req.body;
     const category = await findOneCategory(undefined, title);
     if(category) { 
         return reply.code(409).send({
@@ -10,7 +10,16 @@ export const createCategoryHandler = async(req, reply) => {
             message: 'This category is already exist'
         })
     }
-    const newCategory = await Category.create({title});
+    if(ParentId) {
+        const parentCategory = await findOneCategory(ParentId);
+        if(!parentCategory) { 
+            return reply.code(404).send({
+                statusCode: 404,
+                message: 'Parent category not found'
+            })
+        }
+    }
+    const newCategory = await Category.create({title, ParentId});
     if(!newCategory) {
         return reply.code(500).send({
             statusCode: 500,
@@ -39,7 +48,23 @@ export const getOneCategoryHandler = async(req, reply) => {
 }
 
 export const getAllCategoryHandler = async(req, reply) => {
-    const categories = await Category.findAll();
+    const categories = await Category.findAll({ 
+        include: [
+            {
+                model: Category,
+                as: 'children',
+                include: [
+                    {
+                        model: Category,
+                        as: 'children'
+                    }
+                ]
+            }
+        ],
+        where: {
+            ParentId: null
+        }
+    });
     if(!categories || categories.length == 0) {
         return reply.code(404).send({
             statusCode: 404,

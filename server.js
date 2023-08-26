@@ -40,10 +40,6 @@ const main = async() => {
     fastify.register(categoryRoutes, { prefix: 'category' });
     fastify.register(userRoutes, { prefix: 'user' });
     fastify.register(productRoutes, { prefix: 'products' });
-    // fastify.use((err, req, res, next) => {
-    //     console.log('Error : ', err.message);
-    //     res.send(err)
-    // })
     fastify.listen({port: PORT}, err => {
         if(err) console.log(err);
         console.log(`Server is running on : ${PORT}`);
